@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenMind AI — Conscious Computing for Saudi Arabia</title>
+  <style>
+:root {
+  --sand: #F5EDD6;
+  --sage: #2D5016;
+  --mint: #7CB87A;
+  --gold: #C9973A;
+  --earth: #8B5E3C;
+  --deep: #1A2E0A;
+  --light-green: #E8F3E1;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background-color: var(--sand); color: var(--deep); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.2rem 5%;
+  background: rgba(245, 237, 214, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(45,80,22,0.12);
+}
+.logo { font-family: Georgia, 'Times New Roman', serif; font-size: 1.4rem; font-weight: 700; color: var(--sage); display: flex; align-items: center; gap: 0.5rem; }
+.logo span { color: var(--gold); }
+nav ul { list-style: none; display: flex; gap: 2.5rem; }
+nav ul a, nav ul button {
+  text-decoration: none; color: var(--deep); font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s;
+  background: none; border: none; cursor: pointer; font-family: inherit; padding: 0;
+}
+nav ul a:hover, nav ul button:hover { color: var(--sage); }
+
+/* LANGUAGE TOGGLE */
+.lang-toggle {
+  display: flex; align-items: center; gap: 0.4rem;
+  background: var(--sage); color: var(--sand);
+  border: none; border-radius: 20px;
+  padding: 0.4rem 1rem; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  transition: background 0.2s, transform 0.2s;
+  letter-spacing: 0.05em; white-space: nowrap;
+}
+.lang-toggle:hover { background: var(--deep); transform: translateY(-1px); }
+.lang-toggle .flag { font-size: 1rem; }
+
+/* RTL SUPPORT */
+[dir="rtl"] body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+[dir="rtl"] nav { flex-direction: row-reverse; }
+[dir="rtl"] nav ul { flex-direction: row-reverse; }
+[dir="rtl"] .hero { direction: rtl; }
+[dir="rtl"] .hero-text { text-align: right; }
+[dir="rtl"] .hero-eyebrow { flex-direction: row-reverse; }
+[dir="rtl"] .hero-eyebrow::before { display: none; }
+[dir="rtl"] .hero-eyebrow::after { content: ''; width: 2rem; height: 1px; background: var(--gold); }
+[dir="rtl"] .hero-sub { text-align: right; }
+[dir="rtl"] .hero-buttons { display: flex; flex-direction: row-reverse; gap: 0; }
+[dir="rtl"] .btn-outline { margin-left: 0; margin-right: 1rem; }
+[dir="rtl"] section { direction: rtl; text-align: right; }
+[dir="rtl"] .lead { text-align: right; }
+[dir="rtl"] .tips-grid, [dir="rtl"] .sol-grid, [dir="rtl"] .saudi-pillars { direction: rtl; }
+[dir="rtl"] .tip-card, [dir="rtl"] .sol-card, [dir="rtl"] .pillar { text-align: right; }
+[dir="rtl"] .pillar ul li { padding: 0.3rem 1.2rem 0.3rem 0; }
+[dir="rtl"] .pillar ul li::before { left: auto; right: 0; content: '←'; }
+[dir="rtl"] .roadmap { direction: rtl; }
+[dir="rtl"] .phase { text-align: center; }
+[dir="rtl"] .stats-bar { direction: rtl; }
+[dir="rtl"] .stat { text-align: center; }
+[dir="rtl"] .calc-box { direction: rtl; text-align: right; }
+[dir="rtl"] .calc-group label { text-align: right; }
+[dir="rtl"] footer { direction: rtl; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 8rem 5% 4rem;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 70% at 80% 50%, rgba(124,184,122,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-text { position: relative; z-index: 2; }
+.hero-eyebrow {
+  font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.hero-eyebrow::before { content: ''; width: 2rem; height: 1px; background: var(--gold); }
+h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.8rem, 5vw, 4.5rem); line-height: 1.1; font-weight: 700; color: var(--sage); margin-bottom: 1.5rem; }
+h1 em { font-style: italic; color: var(--gold); }
+.hero-sub { font-size: 1.05rem; line-height: 1.75; color: #4a5a3a; max-width: 480px; margin-bottom: 2.5rem; }
+
+/* BUTTONS */
+.btn { display: inline-block; padding: 0.85rem 2rem; border-radius: 4px; font-weight: 500; font-size: 0.95rem; text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; }
+.btn-primary { background: var(--sage); color: var(--sand); }
+.btn-primary:hover { background: var(--deep); transform: translateY(-2px); }
+.btn-outline { background: transparent; border: 1.5px solid var(--sage); color: var(--sage); margin-left: 1rem; }
+.btn-outline:hover { background: var(--sage); color: var(--sand); }
+
+/* HERO VISUAL / PLANET */
+.hero-visual { display: flex; justify-content: center; align-items: center; position: relative; }
+.planet {
+  width: 360px; height: 360px; border-radius: 50%;
+  background: conic-gradient(from 180deg, #2D5016 0deg, #7CB87A 90deg, #C9973A 200deg, #2D5016 360deg);
+  animation: rotatePlanet 20s linear infinite;
+  box-shadow: inset -30px -30px 80px rgba(0,0,0,0.3), 0 0 80px rgba(124,184,122,0.3);
+  position: relative;
+}
+.planet::after { content: ''; position: absolute; inset: 15px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.12) 0%, transparent 60%); }
+@keyframes rotatePlanet { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.orbit { position: absolute; width: 430px; height: 430px; border-radius: 50%; border: 1px dashed rgba(45,80,22,0.3); animation: orbitSpin 8s linear infinite; }
+.dot { position: absolute; top: -6px; left: 50%; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); transform: translateX(-50%); }
+@keyframes orbitSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* STATS BAR */
+.stats-bar { background: var(--sage); display: grid; grid-template-columns: repeat(4, 1fr); padding: 2.5rem 5%; }
+.stat { padding: 1rem 2rem; border-right: 1px solid rgba(255,255,255,0.12); text-align: center; }
+.stat:last-child { border-right: none; }
+.stat-num { font-family: Georgia, 'Times New Roman', serif; font-size: 2.2rem; color: var(--mint); font-weight: 700; display: block; }
+.stat-label { font-size: 0.78rem; color: rgba(245,237,214,0.65); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* GENERAL SECTIONS */
+section { padding: 6rem 5%; }
+.section-tag { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 0.8rem; }
+h2 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--sage); margin-bottom: 1.2rem; line-height: 1.2; }
+.lead { font-size: 1.05rem; line-height: 1.8; color: #4a5a3a; max-width: 680px; margin-bottom: 3rem; }
+
+/* AWARENESS */
+.awareness { background: var(--light-green); }
+.tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.tip-card { background: white; border-radius: 8px; padding: 2rem; border-top: 3px solid var(--mint); transition: transform 0.25s, box-shadow 0.25s; }
+.tip-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(45,80,22,0.12); }
+.tip-icon { font-size: 2rem; margin-bottom: 1rem; }
+.tip-card h3 { font-family: Georgia, 'Times New Roman', serif; font-size: 1.15rem; color: var(--sage); margin-bottom: 0.7rem; }
+.tip-card p { font-size: 0.88rem; line-height: 1.7; color: #5a6a4a; }
+
+/* SOLUTIONS */
+.solutions { background: var(--sand); }
+.sol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; }
+.sol-card { border: 1px solid rgba(45,80,22,0.15); border-radius: 10px; padding: 2.5rem; position: relative; overflow: hidden; transition: all 0.3s; }
+.sol-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--sage), var(--mint)); }
+.sol-card:hover { background: var(--light-green); }
+.sol-num { font-family: Georgia, 'Times New Roman', serif; font-size: 3.5rem; font-weight: 700; color: rgba(45,80,22,0.08); position: absolute; top: 1rem; right: 1.5rem; line-height: 1; }
+.sol-card h3 { font-family: Georgia, 'Times New Roman', serif; font-size: 1.25rem; color: var(--sage); margin-bottom: 0.8rem; }
+.sol-card p { font-size: 0.88rem; line-height: 1.7; color: #5a6a4a; }
+
+/* SAUDI SECTION */
+.saudi { background: var(--deep); color: var(--sand); }
+.saudi h2 { color: var(--mint); }
+.saudi .lead { color: rgba(245,237,214,0.68); }
+.saudi .section-tag { color: var(--gold); }
+
+.roadmap { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 3rem; position: relative; }
+.roadmap::before { content: ''; position: absolute; top: 32px; left: 12%; right: 12%; height: 2px; background: linear-gradient(90deg, var(--gold), var(--mint)); z-index: 0; }
+.phase { text-align: center; padding: 1.5rem; position: relative; z-index: 1; }
+.phase-circle { width: 64px; height: 64px; border-radius: 50%; background: var(--gold); border: none; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-family: Georgia, 'Times New Roman', serif; font-size: 1.4rem; font-weight: 700; color: var(--deep); }
+.phase-year { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mint); margin-bottom: 0.5rem; }
+.phase-title { font-family: Georgia, 'Times New Roman', serif; font-size: 1.05rem; color: var(--sand); margin-bottom: 0.7rem; }
+.phase p { font-size: 0.8rem; color: rgba(245,237,214,0.55); line-height: 1.6; }
+
+.saudi-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
+.pillar { background: rgba(255,255,255,0.05); border: 1px solid rgba(124,184,122,0.22); border-radius: 10px; padding: 2rem; transition: background 0.3s; }
+.pillar:hover { background: rgba(124,184,122,0.1); }
+.pillar-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.pillar h3 { color: var(--mint); font-family: Georgia, 'Times New Roman', serif; margin-bottom: 0.8rem; font-size: 1.1rem; }
+.pillar p { font-size: 0.85rem; color: rgba(245,237,214,0.62); line-height: 1.7; }
+.pillar ul { list-style: none; margin-top: 0.9rem; }
+.pillar ul li { font-size: 0.8rem; color: rgba(245,237,214,0.5); padding: 0.3rem 0 0.3rem 1.2rem; position: relative; }
+.pillar ul li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+
+/* CALCULATOR */
+.calculator { background: var(--light-green); }
+.calc-box { max-width: 600px; background: white; border-radius: 12px; padding: 2.5rem; box-shadow: 0 10px 40px rgba(45,80,22,0.1); }
+.calc-box h3 { font-family: Georgia, 'Times New Roman', serif; font-size: 1.5rem; color: var(--sage); margin-bottom: 1.5rem; }
+.calc-group { margin-bottom: 1.5rem; }
+.calc-group label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--sage); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.calc-group input, .calc-group select { width: 100%; padding: 0.8rem 1rem; border: 1.5px solid rgba(45,80,22,0.2); border-radius: 6px; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; font-size: 1rem; color: var(--deep); background: var(--sand); transition: border-color 0.2s; }
+.calc-group input:focus, .calc-group select:focus { outline: none; border-color: var(--sage); }
+.calc-result { background: var(--sage); color: var(--sand); border-radius: 8px; padding: 1.5rem; margin-top: 1.5rem; display: none; }
+.calc-result h4 { font-family: Georgia, 'Times New Roman', serif; font-size: 1.15rem; margin-bottom: 0.5rem; }
+.calc-result p { font-size: 0.88rem; opacity: 0.85; line-height: 1.7; }
+.result-big { font-size: 2.4rem; font-family: Georgia, 'Times New Roman', serif; color: var(--mint); margin-bottom: 0.5rem; }
+
+/* FOOTER */
+footer { background: var(--deep); color: rgba(245,237,214,0.45); text-align: center; padding: 3rem 5%; font-size: 0.82rem; }
+footer strong { color: var(--mint); }
+footer p + p { margin-top: 0.6rem; font-size: 0.78rem; }
+
+/* SCROLL REVEAL */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; text-align: center; }
+  .hero-visual { display: none; }
+  .tips-grid, .sol-grid, .roadmap, .saudi-pillars { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+  .roadmap::before { display: none; }
+  .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">🌿 <span>Green</span>Mind AI</div>
+  <ul>
+    <li><button onclick="scrollToSection('awareness')" data-i18n="nav_awareness">Awareness</button></li>
+    <li><button onclick="scrollToSection('solutions')" data-i18n="nav_solutions">Solutions</button></li>
+    <li><button onclick="scrollToSection('saudi')" data-i18n="nav_saudi">Saudi Vision</button></li>
+    <li><button onclick="scrollToSection('calculator')" data-i18n="nav_calculator">Calculator</button></li>
+  </ul>
+  <button class="lang-toggle" onclick="toggleLanguage()" id="lang-btn">
+    <span class="flag">🇸🇦</span> <span id="lang-label">العربية</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text reveal">
+    <p class="hero-eyebrow" data-i18n="hero_eyebrow">Sustainable AI Initiative</p>
+    <h1 data-i18n="hero_h1">AI with a <em>Conscience</em>, Built for Saudi Arabia</h1>
+    <p class="hero-sub" data-i18n="hero_sub">Artificial intelligence is reshaping our world — but at a real environmental cost. Discover how to use AI mindfully, adopt greener alternatives, and help build a 100% eco-friendly AI future for the Kingdom.</p>
+    <div class="hero-buttons">
+      <button onclick="scrollToSection('awareness')" class="btn btn-primary" data-i18n="hero_btn1">Explore Now</button>
+      <button onclick="scrollToSection('calculator')" class="btn btn-outline" data-i18n="hero_btn2">Carbon Calculator</button>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="orbit"><div class="dot"></div></div>
+    <div class="planet"></div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-num">3%</span>
+    <div class="stat-label" data-i18n="stat1">Global electricity consumed by data centers</div>
+  </div>
+  <div class="stat">
+    <span class="stat-num">500ml</span>
+    <div class="stat-label" data-i18n="stat2">Water used per 20-question AI session</div>
+  </div>
+  <div class="stat">
+    <span class="stat-num">10x</span>
+    <div class="stat-label" data-i18n="stat3">More energy for AI search vs traditional search</div>
+  </div>
+  <div class="stat">
+    <span class="stat-num">2030</span>
+    <div class="stat-label" data-i18n="stat4">Saudi Vision target: 50% renewable energy</div>
+  </div>
+</div>
+
+<!-- AWARENESS -->
+<section class="awareness" id="awareness">
+  <p class="section-tag" data-i18n="awareness_tag">Use AI Consciously</p>
+  <h2 data-i18n="awareness_h2">Mindful AI Practices</h2>
+  <p class="lead" data-i18n="awareness_lead">Every query has a carbon cost. Training a single large AI model can emit as much CO2 as five cars over their lifetimes. Small behavioral changes, at scale, make a measurable difference.</p>
+  <div class="tips-grid">
+    <div class="tip-card reveal">
+      <div class="tip-icon">🎯</div>
+      <h3 data-i18n="tip1_h">Be Specific, Be Efficient</h3>
+      <p data-i18n="tip1_p">Write clear, precise prompts to get answers in fewer interactions. Vague questions lead to multiple follow-ups — each consuming server energy. One great prompt beats five mediocre ones.</p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="tip-icon">⏰</div>
+      <h3 data-i18n="tip2_h">Use AI Purposefully</h3>
+      <p data-i18n="tip2_p">Ask yourself: is AI truly necessary here? For simple tasks — basic calculations, common knowledge — use traditional tools. Reserve AI for complex analysis, creative work, and genuine decision support.</p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="tip-icon">🔄</div>
+      <h3 data-i18n="tip3_h">Reuse and Cache Results</h3>
+      <p data-i18n="tip3_p">Save AI outputs for recurring tasks instead of regenerating them. Maintain a personal knowledge base of useful responses to avoid redundant queries and reduce cumulative energy use.</p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="tip-icon">🤏</div>
+      <h3 data-i18n="tip4_h">Choose Smaller Models</h3>
+      <p data-i18n="tip4_p">Smaller, specialized AI models are often 10-100x more efficient than large general-purpose ones. Use lightweight models for routine tasks — only escalate to large models when truly needed.</p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="tip-icon">🌙</div>
+      <h3 data-i18n="tip5_h">Time Your Heavy Workloads</h3>
+      <p data-i18n="tip5_p">Run large batch AI tasks during off-peak hours when grids are greener or less stressed. Many cloud providers offer carbon-aware scheduling — use it. Early morning often has cleaner electricity.</p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="tip-icon">📊</div>
+      <h3 data-i18n="tip6_h">Track Your AI Footprint</h3>
+      <p data-i18n="tip6_p">Use tools like CodeCarbon or cloud carbon dashboards to measure your AI usage emissions. Awareness is the first step — you cannot meaningfully reduce what you do not measure.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GREEN SOLUTIONS -->
+<section class="solutions" id="solutions">
+  <p class="section-tag" data-i18n="sol_tag">Greener Alternatives</p>
+  <h2 data-i18n="sol_h2">Switch to Sustainable AI</h2>
+  <p class="lead" data-i18n="sol_lead">From green cloud providers to efficient AI architectures, tangible solutions exist today. Here is how organizations and individuals can shift toward eco-responsible AI.</p>
+  <div class="sol-grid">
+    <div class="sol-card reveal">
+      <div class="sol-num">01</div>
+      <h3 data-i18n="sol1_h">Green Cloud Providers</h3>
+      <p data-i18n="sol1_p">Choose AI services hosted on renewable-powered infrastructure. Google Cloud, Microsoft Azure, and AWS all offer carbon-neutral regions. Prioritize providers with verified renewable energy certificates and transparent emissions reporting.</p>
+    </div>
+    <div class="sol-card reveal">
+      <div class="sol-num">02</div>
+      <h3 data-i18n="sol2_h">Edge AI and On-Device Computing</h3>
+      <p data-i18n="sol2_p">Move inference from energy-hungry data centers to local devices. Edge AI reduces data transmission, lowers latency, and dramatically cuts energy use — especially impactful in Saudi Arabia's hot climate where cooling costs are high.</p>
+    </div>
+    <div class="sol-card reveal">
+      <div class="sol-num">03</div>
+      <h3 data-i18n="sol3_h">Efficient AI Architectures</h3>
+      <p data-i18n="sol3_p">Adopt model compression techniques — pruning, quantization, and distillation — that reduce model size by 75-90% with minimal accuracy loss. Organizations can achieve huge efficiency gains by optimizing their AI stack before scaling.</p>
+    </div>
+    <div class="sol-card reveal">
+      <div class="sol-num">04</div>
+      <h3 data-i18n="sol4_h">Open-Source and Shared Models</h3>
+      <p data-i18n="sol4_p">Training new models from scratch is enormously carbon-intensive. Share, fine-tune, and reuse existing open-source models. Community model hubs like Hugging Face eliminate duplicated environmental costs across the ecosystem.</p>
+    </div>
+    <div class="sol-card reveal">
+      <div class="sol-num">05</div>
+      <h3 data-i18n="sol5_h">Carbon-Aware Scheduling</h3>
+      <p data-i18n="sol5_p">Intelligently route AI workloads to regions and times with the greenest electricity. Tools like WattTime API and Google's carbon-aware computing framework help automate this, often reducing emissions by 30-50% with no performance trade-off.</p>
+    </div>
+    <div class="sol-card reveal">
+      <div class="sol-num">06</div>
+      <h3 data-i18n="sol6_h">Green AI Procurement Policy</h3>
+      <p data-i18n="sol6_p">Embed sustainability criteria in AI vendor selection. Require suppliers to disclose training emissions, commit to Science-Based Targets, and provide renewable energy usage data. Policy drives markets faster than individual choices alone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SAUDI 100% PLAN -->
+<section class="saudi" id="saudi">
+  <p class="section-tag" data-i18n="saudi_tag">Kingdom Roadmap</p>
+  <h2 data-i18n="saudi_h2">Saudi Arabia's Path to 100% Eco-Friendly AI</h2>
+  <p class="lead" data-i18n="saudi_lead">Saudi Arabia's unique position — abundant sunshine, massive solar potential, and ambitious Vision 2030 — creates an extraordinary opportunity to build the world's most sustainable AI ecosystem.</p>
+
+  <div class="roadmap">
+    <div class="phase reveal">
+      <div class="phase-circle">1</div>
+      <div class="phase-year" data-i18n="phase1_year">2025-2026</div>
+      <div class="phase-title" data-i18n="phase1_title">Foundation</div>
+      <p data-i18n="phase1_p">Establish a National Green AI Framework, audit existing data center emissions, mandate renewable energy disclosure for all AI operators in the Kingdom.</p>
+    </div>
+    <div class="phase reveal">
+      <div class="phase-circle">2</div>
+      <div class="phase-year" data-i18n="phase2_year">2026-2027</div>
+      <div class="phase-title" data-i18n="phase2_title">Solar Integration</div>
+      <p data-i18n="phase2_p">Power NEOM and Riyadh data centers with solar megaprojects. Launch 5 GW dedicated solar farms for AI infrastructure under ACWA Power partnerships.</p>
+    </div>
+    <div class="phase reveal">
+      <div class="phase-circle">3</div>
+      <div class="phase-year" data-i18n="phase3_year">2028-2029</div>
+      <div class="phase-title" data-i18n="phase3_title">Full Transition</div>
+      <p data-i18n="phase3_p">Migrate all government AI workloads to renewable-powered infrastructure. Implement carbon pricing for private AI operators and launch national AI efficiency standards.</p>
+    </div>
+    <div class="phase reveal">
+      <div class="phase-circle">4</div>
+      <div class="phase-year" data-i18n="phase4_year">2030</div>
+      <div class="phase-title" data-i18n="phase4_title">Zero Carbon AI</div>
+      <p data-i18n="phase4_p">100% renewable-powered national AI infrastructure. Saudi Arabia becomes a global model for sustainable AI, exporting green AI expertise across the Arab world.</p>
+    </div>
+  </div>
+
+  <div class="saudi-pillars">
+    <div class="pillar reveal">
+      <div class="pillar-icon">☀️</div>
+      <h3 data-i18n="pillar1_h">Solar-Powered Data Centers</h3>
+      <p data-i18n="pillar1_p">Saudi Arabia receives 2,500+ kWh/m2/year of solar irradiance — among the highest on Earth. A once-in-civilization competitive advantage for green AI.</p>
+      <ul>
+        <li data-i18n="pillar1_li1">Partner with ACWA Power for dedicated AI solar farms</li>
+        <li data-i18n="pillar1_li2">Build hyperscale data centers in NEOM with 100% solar coverage</li>
+        <li data-i18n="pillar1_li3">Develop solar-powered edge AI nodes across all regions</li>
+        <li data-i18n="pillar1_li4">Export surplus green energy to neighboring countries</li>
+      </ul>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-icon">💧</div>
+      <h3 data-i18n="pillar2_h">Water-Free Cooling</h3>
+      <p data-i18n="pillar2_p">Traditional data centers consume vast water for cooling — a critical concern in arid Saudi Arabia. The Kingdom must pioneer waterless alternatives at scale.</p>
+      <ul>
+        <li data-i18n="pillar2_li1">Deploy liquid immersion cooling (95% more efficient)</li>
+        <li data-i18n="pillar2_li2">Use desert night air for free cooling during cooler months</li>
+        <li data-i18n="pillar2_li3">Implement closed-loop water recycling where needed</li>
+        <li data-i18n="pillar2_li4">Partner with KAUST on next-gen thermosiphon cooling R&D</li>
+      </ul>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-icon">🏛️</div>
+      <h3 data-i18n="pillar3_h">Policy and Regulation</h3>
+      <p data-i18n="pillar3_p">Saudi Arabia's strong central governance enables rapid policy deployment — a competitive advantage for fast-tracking the green AI transition.</p>
+      <ul>
+        <li data-i18n="pillar3_li1">Establish SAFAI: Saudi Authority for AI Sustainability</li>
+        <li data-i18n="pillar3_li2">Mandatory Green AI certification for government AI systems</li>
+        <li data-i18n="pillar3_li3">Tax incentives for companies adopting energy-efficient AI</li>
+        <li data-i18n="pillar3_li4">Standards aligned with ISO 14064 and the Paris Agreement</li>
+      </ul>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-icon">🎓</div>
+      <h3 data-i18n="pillar4_h">Education and Human Capital</h3>
+      <p data-i18n="pillar4_p">Sustainable AI requires a generation of engineers who treat efficiency as a core design principle — not an afterthought bolted on after the fact.</p>
+      <ul>
+        <li data-i18n="pillar4_li1">Integrate Green AI curriculum at KAUST, KFUPM, and KAU</li>
+        <li data-i18n="pillar4_li2">National Green AI Scholarship Program for 1,000 students by 2027</li>
+        <li data-i18n="pillar4_li3">Corporate training mandates for all Saudi AI developers</li>
+        <li data-i18n="pillar4_li4">Annual Saudi Green AI Summit to share global best practices</li>
+      </ul>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-icon">🤝</div>
+      <h3 data-i18n="pillar5_h">International Partnerships</h3>
+      <p data-i18n="pillar5_p">Saudi Arabia can leverage its geopolitical position and PIF investment capacity to anchor transformative global Green AI alliances.</p>
+      <ul>
+        <li data-i18n="pillar5_li1">Join the Green Software Foundation as a founding Arab member</li>
+        <li data-i18n="pillar5_li2">Partner with the EU on carbon-aligned AI data center standards</li>
+        <li data-i18n="pillar5_li3">Co-invest with PIF in global sustainable AI infrastructure funds</li>
+        <li data-i18n="pillar5_li4">Host UNFCCC AI and Climate working group in Riyadh</li>
+      </ul>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-icon">🔬</div>
+      <h3 data-i18n="pillar6_h">Innovation and Research</h3>
+      <p data-i18n="pillar6_p">Invest in next-generation AI architectures that are fundamentally more efficient — not just greener versions of today's wasteful systems.</p>
+      <ul>
+        <li data-i18n="pillar6_li1">Fund neuromorphic computing research at KAUST (1000x efficiency)</li>
+        <li data-i18n="pillar6_li2">Develop Arabic-optimized AI models to avoid redundant retraining</li>
+        <li data-i18n="pillar6_li3">Research desert-climate-adapted hardware and thermal management</li>
+        <li data-i18n="pillar6_li4">Open-source Saudi-developed Green AI tools to the Arab world</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="calculator" id="calculator">
+  <p class="section-tag" data-i18n="calc_tag">Your Impact</p>
+  <h2 data-i18n="calc_h2">Estimate Your AI Carbon Footprint</h2>
+  <p class="lead" data-i18n="calc_lead">Get a rough sense of your AI usage's environmental impact — and discover how much you could save by switching to greener practices.</p>
+  <div class="calc-box reveal">
+    <h3 data-i18n="calc_title">🌿 Personal AI Carbon Calculator</h3>
+    <div class="calc-group">
+      <label for="queries" data-i18n="calc_label1">AI Queries per Day</label>
+      <input type="number" id="queries" placeholder="e.g. 50" min="1" max="10000">
+    </div>
+    <div class="calc-group">
+      <label for="tool" data-i18n="calc_label2">Primary AI Tool</label>
+      <select id="tool">
+        <option value="large" data-i18n="tool_large">Large LLM (GPT-4, Claude Opus, Gemini Ultra)</option>
+        <option value="medium" data-i18n="tool_medium">Medium LLM (GPT-3.5, Claude Sonnet)</option>
+        <option value="small" data-i18n="tool_small">Small / Specialized Model</option>
+        <option value="image" data-i18n="tool_image">Image Generation (Midjourney, DALL-E)</option>
+      </select>
+    </div>
+    <div class="calc-group">
+      <label for="provider" data-i18n="calc_label3">Cloud Provider</label>
+      <select id="provider">
+        <option value="mixed" data-i18n="prov_mixed">Mixed / Unknown</option>
+        <option value="green" data-i18n="prov_green">Green Provider (Google, Azure with renewables)</option>
+        <option value="fossil" data-i18n="prov_fossil">Fossil-Fuel Heavy Provider</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="calculate()" style="width:100%; padding: 1rem; font-size: 1rem;" data-i18n="calc_btn">Calculate My Footprint</button>
+    <div class="calc-result" id="result">
+      <h4 data-i18n="calc_result_h">Your Estimated Annual AI Footprint</h4>
+      <div class="result-big" id="result-num">—</div>
+      <p id="result-text"></p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p data-i18n="footer1">Built with 🌿 for a sustainable future · <strong>GreenMind AI</strong> — Aligned with Saudi Vision 2030 and the Paris Agreement</p>
+  <p data-i18n="footer2">Estimates are approximations based on published research. Sources: IEA, MLCommons, Carbon Brief, Goldman Sachs Energy Research 2024.</p>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────
+//  GreenMind AI — script.js
+//  Includes: scroll, scroll-reveal, calculator,
+//            and English / Arabic i18n switcher
+// ─────────────────────────────────────────────
+
+// ── Current language state ──────────────────
+var currentLang = 'en';
+
+// ── Full translation dictionary ──────────────
+var TRANSLATIONS = {
+  en: {
+    // NAV
+    nav_awareness:  'Awareness',
+    nav_solutions:  'Solutions',
+    nav_saudi:      'Saudi Vision',
+    nav_calculator: 'Calculator',
+
+    // HERO
+    hero_eyebrow: 'Sustainable AI Initiative',
+    hero_h1:      'AI with a <em>Conscience</em>, Built for Saudi Arabia',
+    hero_sub:     'Artificial intelligence is reshaping our world — but at a real environmental cost. Discover how to use AI mindfully, adopt greener alternatives, and help build a 100% eco-friendly AI future for the Kingdom.',
+    hero_btn1:    'Explore Now',
+    hero_btn2:    'Carbon Calculator',
+
+    // STATS
+    stat1: 'Global electricity consumed by data centers',
+    stat2: 'Water used per 20-question AI session',
+    stat3: 'More energy for AI search vs traditional search',
+    stat4: 'Saudi Vision target: 50% renewable energy',
+
+    // AWARENESS
+    awareness_tag:  'Use AI Consciously',
+    awareness_h2:   'Mindful AI Practices',
+    awareness_lead: 'Every query has a carbon cost. Training a single large AI model can emit as much CO₂ as five cars over their lifetimes. Small behavioral changes, at scale, make a measurable difference.',
+    tip1_h: 'Be Specific, Be Efficient',
+    tip1_p: 'Write clear, precise prompts to get answers in fewer interactions. Vague questions lead to multiple follow-ups — each consuming server energy. One great prompt beats five mediocre ones.',
+    tip2_h: 'Use AI Purposefully',
+    tip2_p: 'Ask yourself: is AI truly necessary here? For simple tasks — basic calculations, common knowledge — use traditional tools. Reserve AI for complex analysis, creative work, and genuine decision support.',
+    tip3_h: 'Reuse and Cache Results',
+    tip3_p: 'Save AI outputs for recurring tasks instead of regenerating them. Maintain a personal knowledge base of useful responses to avoid redundant queries and reduce cumulative energy use.',
+    tip4_h: 'Choose Smaller Models',
+    tip4_p: 'Smaller, specialized AI models are often 10-100x more efficient than large general-purpose ones. Use lightweight models for routine tasks — only escalate to large models when truly needed.',
+    tip5_h: 'Time Your Heavy Workloads',
+    tip5_p: 'Run large batch AI tasks during off-peak hours when grids are greener or less stressed. Many cloud providers offer carbon-aware scheduling — use it. Early morning often has cleaner electricity.',
+    tip6_h: 'Track Your AI Footprint',
+    tip6_p: 'Use tools like CodeCarbon or cloud carbon dashboards to measure your AI usage emissions. Awareness is the first step — you cannot meaningfully reduce what you do not measure.',
+
+    // SOLUTIONS
+    sol_tag:  'Greener Alternatives',
+    sol_h2:   'Switch to Sustainable AI',
+    sol_lead: 'From green cloud providers to efficient AI architectures, tangible solutions exist today. Here is how organizations and individuals can shift toward eco-responsible AI.',
+    sol1_h: 'Green Cloud Providers',
+    sol1_p: 'Choose AI services hosted on renewable-powered infrastructure. Google Cloud, Microsoft Azure, and AWS all offer carbon-neutral regions. Prioritize providers with verified renewable energy certificates and transparent emissions reporting.',
+    sol2_h: 'Edge AI and On-Device Computing',
+    sol2_p: "Move inference from energy-hungry data centers to local devices. Edge AI reduces data transmission, lowers latency, and dramatically cuts energy use — especially impactful in Saudi Arabia's hot climate where cooling costs are high.",
+    sol3_h: 'Efficient AI Architectures',
+    sol3_p: 'Adopt model compression techniques — pruning, quantization, and distillation — that reduce model size by 75-90% with minimal accuracy loss. Organizations can achieve huge efficiency gains by optimizing their AI stack before scaling.',
+    sol4_h: 'Open-Source and Shared Models',
+    sol4_p: 'Training new models from scratch is enormously carbon-intensive. Share, fine-tune, and reuse existing open-source models. Community model hubs like Hugging Face eliminate duplicated environmental costs across the ecosystem.',
+    sol5_h: 'Carbon-Aware Scheduling',
+    sol5_p: "Intelligently route AI workloads to regions and times with the greenest electricity. Tools like WattTime API and Google's carbon-aware computing framework help automate this, often reducing emissions by 30-50% with no performance trade-off.",
+    sol6_h: 'Green AI Procurement Policy',
+    sol6_p: 'Embed sustainability criteria in AI vendor selection. Require suppliers to disclose training emissions, commit to Science-Based Targets, and provide renewable energy usage data. Policy drives markets faster than individual choices alone.',
+
+    // SAUDI
+    saudi_tag:  'Kingdom Roadmap',
+    saudi_h2:   "Saudi Arabia's Path to 100% Eco-Friendly AI",
+    saudi_lead: "Saudi Arabia's unique position — abundant sunshine, massive solar potential, and ambitious Vision 2030 — creates an extraordinary opportunity to build the world's most sustainable AI ecosystem.",
+    phase1_year: '2025-2026', phase1_title: 'Foundation',
+    phase1_p: 'Establish a National Green AI Framework, audit existing data center emissions, mandate renewable energy disclosure for all AI operators in the Kingdom.',
+    phase2_year: '2026-2027', phase2_title: 'Solar Integration',
+    phase2_p: 'Power NEOM and Riyadh data centers with solar megaprojects. Launch 5 GW dedicated solar farms for AI infrastructure under ACWA Power partnerships.',
+    phase3_year: '2028-2029', phase3_title: 'Full Transition',
+    phase3_p: 'Migrate all government AI workloads to renewable-powered infrastructure. Implement carbon pricing for private AI operators and launch national AI efficiency standards.',
+    phase4_year: '2030', phase4_title: 'Zero Carbon AI',
+    phase4_p: '100% renewable-powered national AI infrastructure. Saudi Arabia becomes a global model for sustainable AI, exporting green AI expertise across the Arab world.',
+
+    pillar1_h: 'Solar-Powered Data Centers',
+    pillar1_p: 'Saudi Arabia receives 2,500+ kWh/m² of solar irradiance per year — among the highest on Earth. A once-in-civilization competitive advantage for green AI.',
+    pillar1_li1: 'Partner with ACWA Power for dedicated AI solar farms',
+    pillar1_li2: 'Build hyperscale data centers in NEOM with 100% solar coverage',
+    pillar1_li3: 'Develop solar-powered edge AI nodes across all regions',
+    pillar1_li4: 'Export surplus green energy to neighboring countries',
+
+    pillar2_h: 'Water-Free Cooling',
+    pillar2_p: 'Traditional data centers consume vast water for cooling — a critical concern in arid Saudi Arabia. The Kingdom must pioneer waterless alternatives at scale.',
+    pillar2_li1: 'Deploy liquid immersion cooling (95% more efficient)',
+    pillar2_li2: 'Use desert night air for free cooling during cooler months',
+    pillar2_li3: 'Implement closed-loop water recycling where needed',
+    pillar2_li4: 'Partner with KAUST on next-gen thermosiphon cooling R&D',
+
+    pillar3_h: 'Policy and Regulation',
+    pillar3_p: "Saudi Arabia's strong central governance enables rapid policy deployment — a competitive advantage for fast-tracking the green AI transition.",
+    pillar3_li1: 'Establish SAFAI: Saudi Authority for AI Sustainability',
+    pillar3_li2: 'Mandatory Green AI certification for government AI systems',
+    pillar3_li3: 'Tax incentives for companies adopting energy-efficient AI',
+    pillar3_li4: 'Standards aligned with ISO 14064 and the Paris Agreement',
+
+    pillar4_h: 'Education and Human Capital',
+    pillar4_p: 'Sustainable AI requires a generation of engineers who treat efficiency as a core design principle — not an afterthought bolted on after the fact.',
+    pillar4_li1: 'Integrate Green AI curriculum at KAUST, KFUPM, and KAU',
+    pillar4_li2: 'National Green AI Scholarship Program for 1,000 students by 2027',
+    pillar4_li3: 'Corporate training mandates for all Saudi AI developers',
+    pillar4_li4: 'Annual Saudi Green AI Summit to share global best practices',
+
+    pillar5_h: 'International Partnerships',
+    pillar5_p: 'Saudi Arabia can leverage its geopolitical position and PIF investment capacity to anchor transformative global Green AI alliances.',
+    pillar5_li1: 'Join the Green Software Foundation as a founding Arab member',
+    pillar5_li2: 'Partner with the EU on carbon-aligned AI data center standards',
+    pillar5_li3: 'Co-invest with PIF in global sustainable AI infrastructure funds',
+    pillar5_li4: 'Host UNFCCC AI and Climate working group in Riyadh',
+
+    pillar6_h: 'Innovation and Research',
+    pillar6_p: "Invest in next-generation AI architectures that are fundamentally more efficient — not just greener versions of today's wasteful systems.",
+    pillar6_li1: 'Fund neuromorphic computing research at KAUST (1000x efficiency)',
+    pillar6_li2: 'Develop Arabic-optimized AI models to avoid redundant retraining',
+    pillar6_li3: 'Research desert-climate-adapted hardware and thermal management',
+    pillar6_li4: 'Open-source Saudi-developed Green AI tools to the Arab world',
+
+    // CALCULATOR
+    calc_tag:      'Your Impact',
+    calc_h2:       'Estimate Your AI Carbon Footprint',
+    calc_lead:     "Get a rough sense of your AI usage's environmental impact — and discover how much you could save by switching to greener practices.",
+    calc_title:    '🌿 Personal AI Carbon Calculator',
+    calc_label1:   'AI Queries per Day',
+    calc_label2:   'Primary AI Tool',
+    calc_label3:   'Cloud Provider',
+    calc_btn:      'Calculate My Footprint',
+    calc_result_h: 'Your Estimated Annual AI Footprint',
+    tool_large:    'Large LLM (GPT-4, Claude Opus, Gemini Ultra)',
+    tool_medium:   'Medium LLM (GPT-3.5, Claude Sonnet)',
+    tool_small:    'Small / Specialized Model',
+    tool_image:    'Image Generation (Midjourney, DALL-E)',
+    prov_mixed:    'Mixed / Unknown',
+    prov_green:    'Green Provider (Google, Azure with renewables)',
+    prov_fossil:   'Fossil-Fuel Heavy Provider',
+
+    // FOOTER
+    footer1: 'Built with 🌿 for a sustainable future · <strong>GreenMind AI</strong> — Aligned with Saudi Vision 2030 and the Paris Agreement',
+    footer2: 'Estimates are approximations based on published research. Sources: IEA, MLCommons, Carbon Brief, Goldman Sachs Energy Research 2024.',
+
+    // CALCULATOR RESULT STRINGS
+    calc_low:    'منخفض نسبيًا — يعادل قيادة حوالي',
+    calc_km:     'كم بالسيارة سنويًا.',
+    calc_mod:    'معتدل — تحتاج تقريبًا إلى',
+    calc_trees:  'أشجار لامتصاص هذا الكمية كل عام.',
+    calc_high:   'كبير — يعادل',
+    calc_phones: 'شحنة كاملة للهاتف الذكي.',
+    calc_save:   'بالتحول إلى مزود سحابي أخضر واستخدام نماذج أصغر، يمكنك توفير ما يقدر بـ',
+    calc_suffix: 'كجم ثاني أكسيد الكربون/سنة — تخفيض بنسبة 85% دون أي خسارة في الأداء.',
+    calc_alert:  'Please enter a valid number of queries per day.'
+  },
+
+  ar: {
+    // NAV
+    nav_awareness:  'الوعي',
+    nav_solutions:  'الحلول',
+    nav_saudi:      'رؤية سعودية',
+    nav_calculator: 'الحاسبة',
+
+    // HERO
+    hero_eyebrow: 'مبادرة الذكاء الاصطناعي المستدام',
+    hero_h1:      'ذكاء اصطناعي <em>واعٍ</em>، مبني من أجل المملكة العربية السعودية',
+    hero_sub:     'يعيد الذكاء الاصطناعي تشكيل عالمنا — لكن بتكلفة بيئية حقيقية. اكتشف كيف تستخدم الذكاء الاصطناعي بوعي، وتتبنى بدائل أكثر خضرة، وتساهم في بناء مستقبل ذكاء اصطناعي 100% صديق للبيئة في المملكة.',
+    hero_btn1:    'استكشف الآن',
+    hero_btn2:    'حاسبة الكربون',
+
+    // STATS
+    stat1: 'من الكهرباء العالمية تستهلكها مراكز البيانات',
+    stat2: 'ماء تُستهلك لكل جلسة 20 سؤالاً مع الذكاء الاصطناعي',
+    stat3: 'أضعاف الطاقة لبحث الذكاء الاصطناعي مقارنة بالبحث التقليدي',
+    stat4: 'هدف رؤية السعودية: 50% طاقة متجددة',
+
+    // AWARENESS
+    awareness_tag:  'استخدم الذكاء الاصطناعي بوعي',
+    awareness_h2:   'ممارسات الذكاء الاصطناعي الواعية',
+    awareness_lead: 'كل استعلام له تكلفة كربونية. تدريب نموذج ذكاء اصطناعي كبير واحد قد يُصدر من ثاني أكسيد الكربون ما يعادل خمس سيارات طوال عمرها. التغييرات السلوكية الصغيرة، على نطاق واسع، تُحدث فارقًا قابلًا للقياس.',
+    tip1_h: 'كن محدداً وفعّالاً',
+    tip1_p: 'اكتب موجهات واضحة ودقيقة للحصول على إجابات في تفاعلات أقل. الأسئلة الغامضة تؤدي إلى متابعات متعددة — كل منها يستهلك طاقة الخادم. موجه واحد رائع يتفوق على خمسة متوسطة.',
+    tip2_h: 'استخدم الذكاء الاصطناعي بهدف',
+    tip2_p: 'اسأل نفسك: هل الذكاء الاصطناعي ضروري حقًا هنا؟ للمهام البسيطة — الحسابات الأساسية، المعرفة الشائعة — استخدم الأدوات التقليدية. احتفظ بالذكاء الاصطناعي للتحليل المعقد والعمل الإبداعي.',
+    tip3_h: 'أعد الاستخدام وخزّن النتائج',
+    tip3_p: 'احفظ مخرجات الذكاء الاصطناعي للمهام المتكررة بدلاً من إعادة إنشائها. حافظ على قاعدة معرفة شخصية من الردود المفيدة لتجنب الاستعلامات المتكررة وتقليل استهلاك الطاقة التراكمي.',
+    tip4_h: 'اختر النماذج الأصغر',
+    tip4_p: 'النماذج الأصغر والمتخصصة غالبًا أكثر كفاءة بمقدار 10-100 مرة من النماذج الكبيرة للأغراض العامة. استخدم النماذج الخفيفة للمهام الروتينية — فقط انتقل إلى النماذج الكبيرة عند الحاجة الحقيقية.',
+    tip5_h: 'حدد توقيت أعباء العمل الثقيلة',
+    tip5_p: 'شغّل مهام الذكاء الاصطناعي الكبيرة خلال ساعات خارج الذروة عندما تكون الشبكات أكثر خضرة أو أقل ضغطًا. يوفر كثير من مزودي السحابة جدولة واعية بالكربون — استخدمها.',
+    tip6_h: 'تتبع بصمتك الكربونية للذكاء الاصطناعي',
+    tip6_p: 'استخدم أدوات مثل CodeCarbon أو لوحات معلومات كربون السحابة لقياس انبعاثات استخدامك للذكاء الاصطناعي. الوعي هو الخطوة الأولى — لا يمكنك تقليل ما لا تقيسه.',
+
+    // SOLUTIONS
+    sol_tag:  'بدائل أكثر خضرة',
+    sol_h2:   'التحول إلى الذكاء الاصطناعي المستدام',
+    sol_lead: 'من مزودي السحابة الخضراء إلى هياكل الذكاء الاصطناعي الفعّالة، توجد حلول ملموسة اليوم. إليك كيف يمكن للمنظمات والأفراد التحول نحو ذكاء اصطناعي مسؤول بيئيًا.',
+    sol1_h: 'مزودو السحابة الخضراء',
+    sol1_p: 'اختر خدمات الذكاء الاصطناعي المستضافة على بنية تحتية تعمل بالطاقة المتجددة. تقدم Google Cloud وMicrosoft Azure وAWS مناطق محايدة للكربون. أعطِ الأولوية لمزودي الطاقة المتجددة المعتمدين.',
+    sol2_h: 'الذكاء الاصطناعي الطرفي والحوسبة على الجهاز',
+    sol2_p: 'انقل الاستدلال من مراكز البيانات المستهلكة للطاقة إلى الأجهزة المحلية. يقلل الذكاء الاصطناعي الطرفي من نقل البيانات ويخفض الكمون ويقطع استهلاك الطاقة بشكل كبير.',
+    sol3_h: 'هياكل الذكاء الاصطناعي الفعّالة',
+    sol3_p: 'تبنَّ تقنيات ضغط النماذج — التقليم والتكميم والتقطير — التي تقلل حجم النموذج بنسبة 75-90% مع خسارة ضئيلة في الدقة.',
+    sol4_h: 'النماذج مفتوحة المصدر والمشتركة',
+    sol4_p: 'تدريب نماذج جديدة من الصفر يستهلك كميات هائلة من الكربون. شارك النماذج مفتوحة المصدر وضبطها الدقيق وأعد استخدامها. مراكز النماذج المجتمعية كـHugging Face تلغي التكاليف البيئية المكررة.',
+    sol5_h: 'الجدولة الواعية بالكربون',
+    sol5_p: 'وجّه أحمال عمل الذكاء الاصطناعي بذكاء إلى المناطق والأوقات ذات الكهرباء الأكثر خضرة. أدوات مثل WattTime API تساعد في أتمتة ذلك، وغالبًا تقلل الانبعاثات بنسبة 30-50%.',
+    sol6_h: 'سياسة المشتريات للذكاء الاصطناعي الأخضر',
+    sol6_p: 'ادمج معايير الاستدامة في اختيار موردي الذكاء الاصطناعي. اطلب من الموردين الإفصاح عن انبعاثات التدريب والالتزام بالأهداف العلمية.',
+
+    // SAUDI
+    saudi_tag:  'خارطة طريق المملكة',
+    saudi_h2:   'مسار المملكة العربية السعودية نحو ذكاء اصطناعي 100% صديق للبيئة',
+    saudi_lead: 'يمنح الموقع الفريد للمملكة العربية السعودية — وفرة الشمس، والإمكانات الشمسية الهائلة، ورؤية 2030 الطموحة — فرصة استثنائية لبناء منظومة الذكاء الاصطناعي الأكثر استدامة في العالم.',
+    phase1_year: '2025-2026', phase1_title: 'التأسيس',
+    phase1_p: 'إنشاء إطار وطني للذكاء الاصطناعي الأخضر، ومراجعة انبعاثات مراكز البيانات الحالية، وإلزام جميع مشغلي الذكاء الاصطناعي بالإفصاح عن الطاقة المتجددة في المملكة.',
+    phase2_year: '2026-2027', phase2_title: 'التكامل الشمسي',
+    phase2_p: 'تشغيل مراكز بيانات نيوم والرياض بمشاريع الطاقة الشمسية الضخمة. إطلاق مزارع شمسية مخصصة بقدرة 5 جيجاواط للبنية التحتية للذكاء الاصطناعي.',
+    phase3_year: '2028-2029', phase3_title: 'التحول الكامل',
+    phase3_p: 'ترحيل جميع أحمال عمل الذكاء الاصطناعي الحكومية إلى بنية تحتية تعمل بالطاقة المتجددة. تطبيق تسعير الكربون على مشغلي القطاع الخاص.',
+    phase4_year: '2030', phase4_title: 'الذكاء الاصطناعي الصفري الكربون',
+    phase4_p: 'بنية تحتية وطنية للذكاء الاصطناعي تعمل بالكامل بالطاقة المتجددة. تصبح المملكة العربية السعودية نموذجًا عالميًا للذكاء الاصطناعي المستدام، وتصدّر خبرتها إلى العالم العربي.',
+
+    pillar1_h: 'مراكز البيانات بالطاقة الشمسية',
+    pillar1_p: 'تستقبل المملكة العربية السعودية أكثر من 2500 كيلوواط ساعة/م² سنويًا من الإشعاع الشمسي — من بين الأعلى على وجه الأرض. ميزة تنافسية نادرة للذكاء الاصطناعي الأخضر.',
+    pillar1_li1: 'الشراكة مع ACWA Power لمزارع الطاقة الشمسية المخصصة للذكاء الاصطناعي',
+    pillar1_li2: 'بناء مراكز بيانات ضخمة في نيوم بتغطية شمسية 100%',
+    pillar1_li3: 'تطوير عقد ذكاء اصطناعي طرفية تعمل بالطاقة الشمسية في جميع المناطق',
+    pillar1_li4: 'تصدير فائض الطاقة الخضراء إلى الدول المجاورة',
+
+    pillar2_h: 'التبريد بدون ماء',
+    pillar2_p: 'تستهلك مراكز البيانات التقليدية كميات هائلة من المياه للتبريد — مشكلة حرجة في المملكة القاحلة. يجب على المملكة ريادة البدائل الخالية من المياه على نطاق واسع.',
+    pillar2_li1: 'نشر تبريد الغمر السائل (أكثر كفاءة بنسبة 95%)',
+    pillar2_li2: 'استخدام هواء الليل الصحراوي للتبريد المجاني خلال الأشهر الأبرد',
+    pillar2_li3: 'تطبيق إعادة تدوير المياه في حلقة مغلقة عند الحاجة',
+    pillar2_li4: 'الشراكة مع KAUST في بحوث التبريد الحراري من الجيل التالي',
+
+    pillar3_h: 'السياسات والتشريعات',
+    pillar3_p: 'تتيح الحوكمة المركزية القوية في المملكة العربية السعودية نشرًا سريعًا للسياسات — ميزة تنافسية لتسريع التحول نحو الذكاء الاصطناعي الأخضر.',
+    pillar3_li1: 'إنشاء SAFAI: الهيئة السعودية لاستدامة الذكاء الاصطناعي',
+    pillar3_li2: 'شهادة الذكاء الاصطناعي الأخضر الإلزامية لأنظمة الذكاء الاصطناعي الحكومية',
+    pillar3_li3: 'حوافز ضريبية للشركات التي تتبنى الذكاء الاصطناعي الموفر للطاقة',
+    pillar3_li4: 'معايير متوافقة مع ISO 14064 واتفاقية باريس',
+
+    pillar4_h: 'التعليم ورأس المال البشري',
+    pillar4_p: 'يتطلب الذكاء الاصطناعي المستدام جيلًا من المهندسين يعاملون الكفاءة كمبدأ تصميم أساسي — لا كفكرة لاحقة.',
+    pillar4_li1: 'دمج مناهج الذكاء الاصطناعي الأخضر في KAUST وKFUPM وKAU',
+    pillar4_li2: 'برنامج المنح الوطني للذكاء الاصطناعي الأخضر لـ1000 طالب بحلول 2027',
+    pillar4_li3: 'تفويضات التدريب المؤسسي لجميع مطوري الذكاء الاصطناعي السعوديين',
+    pillar4_li4: 'قمة الذكاء الاصطناعي الأخضر السعودية السنوية لتبادل أفضل الممارسات',
+
+    pillar5_h: 'الشراكات الدولية',
+    pillar5_p: 'يمكن للمملكة العربية السعودية الاستفادة من موقعها الجيوسياسي وقدرات صندوق الاستثمارات العامة لإرساء تحالفات عالمية تحويلية للذكاء الاصطناعي الأخضر.',
+    pillar5_li1: 'الانضمام إلى Green Software Foundation كعضو مؤسس عربي',
+    pillar5_li2: 'الشراكة مع الاتحاد الأوروبي لمعايير مراكز البيانات للذكاء الاصطناعي',
+    pillar5_li3: 'الاستثمار المشترك مع صندوق الاستثمارات في صناديق البنية التحتية المستدامة',
+    pillar5_li4: 'استضافة مجموعة عمل UNFCCC للذكاء الاصطناعي والمناخ في الرياض',
+
+    pillar6_h: 'الابتكار والبحث',
+    pillar6_p: 'الاستثمار في هياكل ذكاء اصطناعي من الجيل التالي أكثر كفاءة جوهريًا — لا مجرد نسخ أكثر خضرة من الأنظمة المبددة اليوم.',
+    pillar6_li1: 'تمويل أبحاث الحوسبة العصبية في KAUST (كفاءة أعلى 1000 مرة)',
+    pillar6_li2: 'تطوير نماذج ذكاء اصطناعي محسّنة للغة العربية لتجنب إعادة التدريب المكررة',
+    pillar6_li3: 'بحث تكيّف الأجهزة مع مناخ الصحراء وإدارة الحرارة',
+    pillar6_li4: 'نشر أدوات الذكاء الاصطناعي الأخضر السعودية مفتوحة المصدر للعالم العربي',
+
+    // CALCULATOR
+    calc_tag:      'تأثيرك',
+    calc_h2:       'قدّر بصمتك الكربونية من الذكاء الاصطناعي',
+    calc_lead:     'احصل على فكرة تقريبية عن التأثير البيئي لاستخدامك للذكاء الاصطناعي — واكتشف كم يمكنك توفيره بالتحول إلى ممارسات أكثر خضرة.',
+    calc_title:    '🌿 حاسبة الكربون الشخصية للذكاء الاصطناعي',
+    calc_label1:   'استعلامات الذكاء الاصطناعي يوميًا',
+    calc_label2:   'أداة الذكاء الاصطناعي الأساسية',
+    calc_label3:   'مزود السحابة',
+    calc_btn:      'احسب بصمتي',
+    calc_result_h: 'بصمتك الكربونية السنوية المقدرة من الذكاء الاصطناعي',
+    tool_large:    'نموذج لغوي كبير (GPT-4، Claude Opus، Gemini Ultra)',
+    tool_medium:   'نموذج لغوي متوسط (GPT-3.5، Claude Sonnet)',
+    tool_small:    'نموذج صغير / متخصص',
+    tool_image:    'توليد الصور (Midjourney، DALL-E)',
+    prov_mixed:    'مختلط / غير معروف',
+    prov_green:    'مزود أخضر (Google، Azure بالطاقة المتجددة)',
+    prov_fossil:   'مزود يعتمد بشكل رئيسي على الوقود الأحفوري',
+
+    // FOOTER
+    footer1: 'بُني بـ 🌿 من أجل مستقبل مستدام · <strong>GreenMind AI</strong> — متوافق مع رؤية السعودية 2030 واتفاقية باريس',
+    footer2: 'التقديرات تقريبية بناءً على أبحاث منشورة. المصادر: IEA، MLCommons، Carbon Brief، Goldman Sachs Energy Research 2024.',
+
+    // CALCULATOR RESULT STRINGS (Arabic)
+    calc_low:    'منخفض نسبيًا — يعادل قيادة حوالي',
+    calc_km:     'كم بالسيارة سنويًا.',
+    calc_mod:    'معتدل — تحتاج تقريبًا إلى',
+    calc_trees:  'أشجار لامتصاص هذا الكمية كل عام.',
+    calc_high:   'كبير — يعادل',
+    calc_phones: 'شحنة كاملة للهاتف الذكي.',
+    calc_save:   'بالتحول إلى مزود سحابي أخضر واستخدام نماذج أصغر، يمكنك توفير ما يقدر بـ',
+    calc_suffix: 'كجم ثاني أكسيد الكربون/سنة — تخفيض بنسبة 85% دون أي خسارة في الأداء.',
+    calc_alert:  'يرجى إدخال عدد صحيح من الاستعلامات في اليوم.'
+  }
+};
+
+// ── Apply translations to the DOM ────────────
+function applyTranslations(lang) {
+  var t = TRANSLATIONS[lang];
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) {
+      // Use innerHTML for entries that contain HTML tags (e.g. <em>, <strong>)
+      el.innerHTML = t[key];
+    }
+  });
+
+  // Update <option> elements (they use data-i18n too)
+  document.querySelectorAll('select option[data-i18n]').forEach(function(opt) {
+    var key = opt.getAttribute('data-i18n');
+    if (t[key]) opt.textContent = t[key];
+  });
+}
+
+// ── Toggle between EN and AR ─────────────────
+function toggleLanguage() {
+  currentLang = currentLang === 'en' ? 'ar' : 'en';
+  var isAr = currentLang === 'ar';
+
+  // Set document direction and language
+  document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('lang', isAr ? 'ar' : 'en');
+
+  // Update toggle button label
+  document.getElementById('lang-label').textContent = isAr ? 'English' : 'العربية';
+  document.querySelector('.lang-toggle .flag').textContent = isAr ? '🇬🇧' : '🇸🇦';
+
+  // Apply all translated strings
+  applyTranslations(currentLang);
+
+  // Clear any visible calculator result when switching
+  var result = document.getElementById('result');
+  if (result) result.style.display = 'none';
+}
+
+// ── Smooth scroll ────────────────────────────
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── Scroll-reveal animation ──────────────────
+(function initScrollReveal() {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    observer.observe(el);
+  });
+})();
+
+// ── Carbon Footprint Calculator ──────────────
+var TOOL_FACTOR     = { large: 4.32, medium: 0.50, small: 0.06, image: 2.90 };
+var PROVIDER_FACTOR = { mixed: 1.00, green: 0.15, fossil: 1.80 };
+
+function calculate() {
+  var queries = parseFloat(document.getElementById('queries').value) || 0;
+  var t = TRANSLATIONS[currentLang];
+
+  if (queries <= 0) {
+    alert(t.calc_alert);
+    return;
+  }
+
+  var tool     = document.getElementById('tool').value;
+  var provider = document.getElementById('provider').value;
+
+  var gramsPerQuery = TOOL_FACTOR[tool] * PROVIDER_FACTOR[provider];
+  var annualKg      = (gramsPerQuery * queries * 365 / 1000).toFixed(1);
+  var savedKg       = (annualKg * 0.85).toFixed(1);
+  var treeEquiv     = Math.ceil(annualKg / 21);
+
+  var resultEl = document.getElementById('result');
+  resultEl.style.display = 'block';
+  document.getElementById('result-num').textContent = annualKg + ' kg CO₂/year';
+
+  var text = '';
+  if (currentLang === 'en') {
+    if (annualKg < 5) {
+      text = "That's relatively low — equivalent to driving about " + (annualKg * 6).toFixed(0) + " km by car annually. ";
+    } else if (annualKg < 50) {
+      text = "That's moderate — roughly " + treeEquiv + " trees would be needed to absorb this each year. ";
+    } else {
+      text = "That's significant — equivalent to " + Math.round(annualKg / 0.41).toLocaleString() + " smartphone full charges. ";
+    }
+    text += "By switching to a green cloud provider and using smaller models where possible, you could save an estimated <strong>" + savedKg + " kg CO₂/year</strong> — an 85% reduction with no loss in capability.";
+  } else {
+    if (annualKg < 5) {
+      text = 'هذا ' + t.calc_low + ' ' + (annualKg * 6).toFixed(0) + ' ' + t.calc_km + ' ';
+    } else if (annualKg < 50) {
+      text = 'هذا ' + t.calc_mod + ' ' + treeEquiv + ' ' + t.calc_trees + ' ';
+    } else {
+      text = 'هذا ' + t.calc_high + ' ' + Math.round(annualKg / 0.41).toLocaleString() + ' ' + t.calc_phones + ' ';
+    }
+    text += t.calc_save + ' <strong>' + savedKg + ' كجم ثاني أكسيد الكربون/سنة</strong> — ' + t.calc_suffix;
+  }
+
+  document.getElementById('result-text').innerHTML = text;
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+</script>
+</body>
+</html>
